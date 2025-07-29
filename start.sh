@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# === SYSTEM SETUP (Ubuntu 24.04 already has Python 3.12) ===
+# === SYSTEM SETUP (Ubuntu 24.04 with Python 3.12) ===
 apt update && apt install -y \
   curl git wget unzip ffmpeg nano zip \
   libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 \
   build-essential python3.12-venv python3.12-dev
 
-# === SYMLINK python and pip TO 3.12 ===
+# === SYMLINK python/pip TO 3.12 ===
 update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1
 update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
@@ -19,40 +19,51 @@ pip install jupyterlab
 jupyter lab --port=8888 --no-browser --allow-root --NotebookApp.token='' &
 
 # === COMFYUI SETUP ===
+mkdir -p /workspace
 cd /workspace
 if [ ! -d "ComfyUI" ]; then
   git clone https://github.com/comfyanonymous/ComfyUI.git
 fi
 cd ComfyUI
 
-# === CREATE VENV WITH PYTHON 3.12 ===
+# === CREATE & ACTIVATE VENV ===
 python3.12 -m venv venv
 source venv/bin/activate
 
-# === INSTALL DEPENDENCIES IN VENV ===
+# === INSTALL DEPENDENCIES ===
 pip install --upgrade pip
 pip install -r requirements.txt
 pip install xformers
 
-# === CREATE MODEL FOLDER ===
+# === CREATE REQUIRED FOLDERS ===
 mkdir -p models/checkpoints
+mkdir -p models/clip
+mkdir -p models/controlnet
+mkdir -p models/upscale_models
+mkdir -p models/vae
+mkdir -p input
+mkdir -p output
+mkdir -p custom_nodes
 
 # === AUTO-DOWNLOAD MODELS ===
 
-# Realistic Vision v5.1
-wget -O models/checkpoints/realisticVisionV51.safetensors https://civitai.com/api/download/models/131351
+# 🔹 Model 1
+wget -O models/checkpoints/model1.safetensors "https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=full&fp=fp16"
 
-# Epic Realism v6
-wget -O models/checkpoints/epicRealismV6.safetensors https://civitai.com/api/download/models/117277
+# 🔹 Model 2
+wget -O models/checkpoints/model2.safetensors "https://civitai.com/api/download/models/983309?type=Model&format=SafeTensor&size=full&fp=fp32"
 
-# DreamShaper v8
-wget -O models/checkpoints/dreamshaperV8.safetensors https://civitai.com/api/download/models/128713
+# 🔹 Model 3
+wget -O models/checkpoints/model3.safetensors "https://civitai.com/api/download/models/128078?type=Model&format=SafeTensor&size=pruned&fp=fp16"
 
-# CyberRealistic v4
-wget -O models/checkpoints/cyberRealisticV4.safetensors https://civitai.com/api/download/models/104694
+# 🔹 Model 4
+wget -O models/checkpoints/model4.safetensors "https://civitai.com/api/download/models/143906?type=Model&format=SafeTensor&size=pruned&fp=fp16"
 
-# Stable Diffusion v1.5 (required base model)
-wget -O models/checkpoints/sd15.safetensors https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.safetensors
+# 🔹 Model 5
+wget -O models/checkpoints/model5.safetensors "https://civitai.com/api/download/models/1941849?type=Model&format=SafeTensor&size=full&fp=fp32"
+
+# 🔹 Model 6 (DreamShaper)
+wget -O models/checkpoints/dreamshaper.safetensors "https://civitai.com/api/download/models/128713?type=Model&format=SafeTensor&size=pruned&fp=fp16"
 
 # === LAUNCH COMFYUI ===
 source venv/bin/activate
