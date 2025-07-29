@@ -14,10 +14,6 @@ update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 # === ENSURE pip IS INSTALLED ===
 curl -sS https://bootstrap.pypa.io/get-pip.py | python
 
-# === JUPYTERLAB INSTALL ===
-pip install jupyterlab
-jupyter lab --port=8888 --no-browser --allow-root --NotebookApp.token='' &
-
 # === COMFYUI SETUP ===
 mkdir -p /workspace
 cd /workspace
@@ -32,6 +28,7 @@ source venv/bin/activate
 
 # === INSTALL DEPENDENCIES ===
 pip install --upgrade pip
+pip install jupyterlab
 pip install -r requirements.txt
 pip install xformers
 
@@ -65,6 +62,6 @@ wget -O models/checkpoints/model5.safetensors "https://civitai.com/api/download/
 # 🔹 Model 6 (DreamShaper)
 wget -O models/checkpoints/dreamshaper.safetensors "https://civitai.com/api/download/models/128713?type=Model&format=SafeTensor&size=pruned&fp=fp16"
 
-# === LAUNCH COMFYUI ===
-source venv/bin/activate
+# === LAUNCH SERVICES ===
+jupyter lab --port=8888 --no-browser --allow-root --NotebookApp.token='' &
 python3 main.py --listen --port 8188
