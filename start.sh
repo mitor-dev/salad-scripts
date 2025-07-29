@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# === DEBUG START LOG ===
-echo "✅ start.sh is executing..." | tee /workspace/startup-log.txt
+# === START LOG ===
+echo "✅ start.sh is executing..." | tee /root/startup-log.txt
 
-# === SYSTEM SETUP (Ubuntu 24.04 + Python 3.12.3) ===
+# === SYSTEM SETUP (Ubuntu 24.04 + Python 3.12) ===
 apt update && apt install -y \
   curl git wget unzip ffmpeg nano zip \
   libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 \
@@ -17,9 +17,8 @@ update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 # === ENSURE pip IS INSTALLED ===
 curl -sS https://bootstrap.pypa.io/get-pip.py | python
 
-# === COMFYUI SETUP ===
-mkdir -p /workspace
-cd /workspace
+# === COMFYUI SETUP IN /root ===
+cd /root
 if [ ! -d "ComfyUI" ]; then
   git clone https://github.com/comfyanonymous/ComfyUI.git
 fi
@@ -29,7 +28,7 @@ cd ComfyUI
 python3.12 -m venv venv
 source venv/bin/activate
 
-# === INSTALL DEPENDENCIES IN VENV ===
+# === INSTALL DEPENDENCIES ===
 pip install --upgrade pip
 pip install jupyterlab
 pip install -r requirements.txt
@@ -53,9 +52,7 @@ wget -O models/checkpoints/model4.safetensors "https://civitai.com/api/download/
 wget -O models/checkpoints/model5.safetensors "https://civitai.com/api/download/models/1941849?type=Model&format=SafeTensor&size=full&fp=fp32"
 wget -O models/checkpoints/dreamshaper.safetensors "https://civitai.com/api/download/models/128713?type=Model&format=SafeTensor&size=pruned&fp=fp16"
 
-# === STARTUP CONFIRMATION FILE ===
-echo "All setup complete. Launching ComfyUI..." | tee -a /workspace/startup-log.txt
-
-# === LAUNCH SERVICES ===
+# === LOG AND LAUNCH ===
+echo "✅ All setup complete. Launching ComfyUI..." | tee -a /root/startup-log.txt
 jupyter lab --port=8888 --no-browser --allow-root --NotebookApp.token='' &
 python3 main.py --listen --port 8188
