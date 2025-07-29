@@ -1,6 +1,9 @@
 #!/bin/bash
 
-# === SYSTEM SETUP (Ubuntu 24.04 with Python 3.12) ===
+# === DEBUG START LOG ===
+echo "✅ start.sh is executing..." | tee /workspace/startup-log.txt
+
+# === SYSTEM SETUP (Ubuntu 24.04 + Python 3.12.3) ===
 apt update && apt install -y \
   curl git wget unzip ffmpeg nano zip \
   libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 \
@@ -26,7 +29,7 @@ cd ComfyUI
 python3.12 -m venv venv
 source venv/bin/activate
 
-# === INSTALL DEPENDENCIES ===
+# === INSTALL DEPENDENCIES IN VENV ===
 pip install --upgrade pip
 pip install jupyterlab
 pip install -r requirements.txt
@@ -43,24 +46,15 @@ mkdir -p output
 mkdir -p custom_nodes
 
 # === AUTO-DOWNLOAD MODELS ===
-
-# 🔹 Model 1
 wget -O models/checkpoints/model1.safetensors "https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=full&fp=fp16"
-
-# 🔹 Model 2
 wget -O models/checkpoints/model2.safetensors "https://civitai.com/api/download/models/983309?type=Model&format=SafeTensor&size=full&fp=fp32"
-
-# 🔹 Model 3
 wget -O models/checkpoints/model3.safetensors "https://civitai.com/api/download/models/128078?type=Model&format=SafeTensor&size=pruned&fp=fp16"
-
-# 🔹 Model 4
 wget -O models/checkpoints/model4.safetensors "https://civitai.com/api/download/models/143906?type=Model&format=SafeTensor&size=pruned&fp=fp16"
-
-# 🔹 Model 5
 wget -O models/checkpoints/model5.safetensors "https://civitai.com/api/download/models/1941849?type=Model&format=SafeTensor&size=full&fp=fp32"
-
-# 🔹 Model 6 (DreamShaper)
 wget -O models/checkpoints/dreamshaper.safetensors "https://civitai.com/api/download/models/128713?type=Model&format=SafeTensor&size=pruned&fp=fp16"
+
+# === STARTUP CONFIRMATION FILE ===
+echo "All setup complete. Launching ComfyUI..." | tee -a /workspace/startup-log.txt
 
 # === LAUNCH SERVICES ===
 jupyter lab --port=8888 --no-browser --allow-root --NotebookApp.token='' &
