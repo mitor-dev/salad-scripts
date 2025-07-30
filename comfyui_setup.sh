@@ -4,7 +4,7 @@ echo "✅ comfyui_setup.sh is executing..." | tee /root/comfyui-setup-log.txt
 
 # === SYSTEM SETUP ===
 apt-get update && apt-get install -y \
-  curl git wget unzip ffmpeg nano zip \
+  curl git unzip ffmpeg nano zip \
   libgl1 libglib2.0-0 libsm6 libxrender1 libxext6 \
   build-essential python3.12-venv python3.12-dev
 
@@ -40,7 +40,7 @@ download_model() {
   local file="models/checkpoints/${name}.safetensors"
   if [ ! -f "$file" ]; then
     echo "⬇️ Downloading: $name"
-    wget -O "$file" "$url" || echo "❌ Failed to download $name"
+    curl -L -o "$file" "$url" || echo "❌ Failed to download $name"
   else
     echo "✅ $name already present. Skipping."
   fi
