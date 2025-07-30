@@ -44,12 +44,10 @@ mkdir -p output
 mkdir -p custom_nodes
 
 # === DOWNLOAD MODELS ===
-wget -O models/checkpoints/model1.safetensors "https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=full&fp=fp16"
-wget -O models/checkpoints/model2.safetensors "https://civitai.com/api/download/models/983309?type=Model&format=SafeTensor&size=full&fp=fp32"
-wget -O models/checkpoints/model3.safetensors "https://civitai.com/api/download/models/128078?type=Model&format=SafeTensor&size=pruned&fp=fp16"
-wget -O models/checkpoints/model4.safetensors "https://civitai.com/api/download/models/143906?type=Model&format=SafeTensor&size=pruned&fp=fp16"
-wget -O models/checkpoints/model5.safetensors "https://civitai.com/api/download/models/1941849?type=Model&format=SafeTensor&size=full&fp=fp32"
-wget -O models/checkpoints/dreamshaper.safetensors "https://civitai.com/api/download/models/128713?type=Model&format=SafeTensor&size=pruned&fp=fp16"
+wget -O models/checkpoints/RealisticVisionV60B1_v51HyperVAE.safetensors "https://civitai.com/api/download/models/501240?type=Model&format=SafeTensor&size=full&fp=fp16"
+wget -O models/checkpoints/SDXL_v10VAEFix.safetensors "https://civitai.com/api/download/models/128078?type=Model&format=SafeTensor&size=pruned&fp=fp16"
+wget -O models/checkpoints/epiCRealism_naturalSinRC1VAE.safetensors "https://civitai.com/api/download/models/143906?type=Model&format=SafeTensor&size=pruned&fp=fp16"
+wget -O models/checkpoints/DreamShaper_8.safetensors "https://civitai.com/api/download/models/128713?type=Model&format=SafeTensor&size=pruned&fp=fp16"
 
 # === FINAL LAUNCH ===
 echo "✅ All setup complete. Launching ComfyUI..." | tee -a /root/startup-log.txt
