@@ -37,7 +37,7 @@ mkdir -p models/checkpoints models/clip models/controlnet models/upscale_models 
 download_model() {
   local name="$1"
   local url="$2"
-  local file="comfy/ldm/models/checkpoints/${name}.safetensors"
+  local file="models/checkpoints/${name}.safetensors"
   if [ ! -f "$file" ]; then
     echo "⬇️ Downloading: $name"
     curl -L -o "$file" "$url" || echo "❌ Failed to download $name"
