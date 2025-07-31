@@ -11,5 +11,4 @@ else
   echo "❌ ComfyUI venv not found! Run comfyui_setup.sh first."
 fi
 
-# Optional: Run passed command to keep container alive or launch something else
 exec "$@"
