@@ -22,12 +22,5 @@ else
   fi
 fi
 
-# === LAUNCH JUPYTERLAB IN BACKGROUND ===
-echo "🚀 Launching JupyterLab on port 8888..."
-nohup /root/jupyterenv/venv/bin/jupyter lab --port=8888 --no-browser --allow-root --NotebookApp.token='' > /root/jupyterlab_output.log 2>&1 &
-
-# === CONTINUE TO NEXT COMMAND ===
-echo "📦 JupyterLab running in background. Continuing with next command..."
-
 # === RUN NEXT SCRIPT IF PASSED ===
 exec "$@"
